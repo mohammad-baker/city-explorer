@@ -3,9 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import axios from 'axios';
-
+import Alert from 'react-bootstrap/Alert'
 class App extends React.Component {
- 
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -26,13 +26,35 @@ class App extends React.Component {
    const response = await axios.get(url);
 
 
-   const urlImage=`https://maps.googleapis.com/maps/api/staticmap?center=${this.state.locatinDAta.lat},${this.state.locatinDAta.lon}&zoom=14&size=400x400&key=${process.env.REACT_APP_LOCATION_IQ_KEY}&format=png`
+   const urlImage=`https://maps.googleapis.com/maps/api/staticmap?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&center=${this.state.locatinDAta.lat},${this.state.locatinDAta.lon}&zoom=14&size=400x400&format=png`
    const urlImage2=`https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350`
   // console.log(response2);
   this.setState({
     locatinDAta: response.data[0]
     
   })
+  function AlertDismissible() {
+    const [show, setShow] = useState(true);
+  
+    return (
+      <>
+        <Alert show={show} variant="success">
+          <Alert.Heading>How's it going?!</Alert.Heading>
+          <p>
+            you should wirte city
+          </p>
+          <hr />
+          <div className="d-flex justify-content-end">
+            <Button onClick={() => setShow(false)} variant="outline-success">
+              Close me y'all!
+            </Button>
+          </div>
+        </Alert>
+  
+        {!show && <Button onClick={() => setShow(true)}>Show Alert</Button>}
+      </>
+    );
+  }
   try{
   this.setState({
     imageOFCity: urlImage
@@ -41,7 +63,7 @@ class App extends React.Component {
         imageOFCity: urlImage2,
         err:true
        
-    });}
+    });render(<AlertDismissible />);}
 
 }
 
@@ -74,5 +96,5 @@ class App extends React.Component {
 
 export default App;
 
-
+ 
 
