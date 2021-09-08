@@ -37,7 +37,7 @@ class App extends React.Component {
     
   })
   console.log(response.data[0]); 
-   const urlImage=`https://maps.locationiq.com/v3/staticmap?key=pk.412a937ad686456585bbc2d600b29ed0&center={${this.state.locatinDAta.lat},${this.state.locatinDAta.lon}}&zoom=8`
+   const urlImage=`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&center={${this.state.locatinDAta.lat},${this.state.locatinDAta.lon}}&zoom=8`
   //  const urlImage2=`https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/A_large_blank_world_map_with_oceans_marked_in_blue.svg/4500px-A_large_blank_world_map_with_oceans_marked_in_blue.svg.png`
   // console.log(response2);
   const response1 = await axios.get(urlImage);
