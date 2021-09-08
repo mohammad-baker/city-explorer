@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-import Alert from 'react-bootstrap/Alert';
+
 import Modal from 'react-bootstrap/Modal';
 
 class App extends React.Component {
@@ -100,6 +100,4 @@ class App extends React.Component {
 }
 
 export default App;
-
- 
 
