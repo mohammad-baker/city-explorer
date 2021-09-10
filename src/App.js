@@ -15,7 +15,7 @@ class App extends React.Component {
       errmassage: "",
       showtheMap: false,
       showError: false,
-      dataFromBackEnd: [],
+      databack1: [],
     };
   }
   supmtion = (e) => {
@@ -34,25 +34,27 @@ class App extends React.Component {
         showtheMap: true,
         showError: false,
       });
-      console.log(response.data[0]);
+
+
       const urlImage = `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&center={${this.state.locatinDAta.lat},${this.state.locatinDAta.lon}}&zoom=8`;
       const response1 = await axios.get(urlImage);
-      const response2 = await axios.get(
+
+
+      
+      const srverUrl = await axios.get(
         `${process.env.REACT_APP_SERVER_URL}/weather?city_name=${location}`
       );
 
-      // console.log({this.state.locationCity.name});
 
+      
       this.setState({
         imageOFCity: response1.request.responseURL,
       });
-
-      console.log(
-        `${process.env.REACT_APP_SERVER_URL}/weather?city_name=${location}`
-      );
       this.setState({
-        dataFromBackEnd: response2.data,
+        databack1: srverUrl.data,
+        
       });
+      console.log(this.state.databack1);
     } catch (err) {
       this.setState({
         errmassage: err.massage,
@@ -106,24 +108,23 @@ class App extends React.Component {
             </p>
             <img src={this.state.imageOFCity} />
           </div>
-          <Card.Body>
-            {this.state.dataFromBackEnd.map((value) => {
-              return;
-              <Card.Text>
-                weather : {value.description}
-                weather : {value.date}
-              </Card.Text>;
-            })}
-          </Card.Body>
-
-          {/* <Modal show={this.props.ModalShow} onHide={this.props.handleModalShow}>
-        <Modal.Body>{this.props.errorMessage} <br/> Please Enter A vaild Name of a Location</Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={this.props.handleModalShow}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
+          <div>
+            {
+              this.state.databack1.map((item)=>{
+                return(
+                  <div style={{ border: "solid", padding: "30px", margin: "20px" ,color:"gold"}}>
+                    <p><strong>the weather description :  </strong> {item.description}</p>
+ 
+                    <p><strong>the weather data :  </strong>{item.data}</p>
+                    <br/>
+                  </div>
+                )
+              }
+              
+            )
+            }
+          </div>
+        
         </center>
       </div>
     );
