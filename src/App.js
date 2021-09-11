@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
-import Card from "react-bootstrap/Card";
+// import Card from "react-bootstrap/Card";
 
 class App extends React.Component {
   constructor(props) {
@@ -16,6 +16,7 @@ class App extends React.Component {
       showtheMap: false,
       showError: false,
       databack1: [],
+      databack2: [],
     };
   }
   supmtion = (e) => {
@@ -24,7 +25,7 @@ class App extends React.Component {
 
   handel = async (e) => {
     e.preventDefault();
-    const location = e.target.NameOf.value;
+    const forlocation = e.target.nameOf.value;
     try {
       const url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&q=${this.state.locationCity}&format=json`;
       const response = await axios.get(url);
@@ -42,7 +43,10 @@ class App extends React.Component {
 
       
       const srverUrl = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/weather?city_name=${location}`
+        `${process.env.REACT_APP_SERVER_URL}/weather?city=${forlocation}`
+      );
+      const srverUrl2 = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/movie?query=${forlocation}`
       );
 
 
@@ -52,9 +56,10 @@ class App extends React.Component {
       });
       this.setState({
         databack1: srverUrl.data,
+        databack2: srverUrl2.data,
         
       });
-      console.log(this.state.databack1);
+      console.log(this.state.srverUr2);
     } catch (err) {
       this.setState({
         errmassage: err.massage,
@@ -85,7 +90,7 @@ class App extends React.Component {
                 type="text"
                 placeholder="Enter City"
                 onChange={this.supmtion}
-                name="NameOf"
+                name="nameOf"
               />
             </Form.Group>
 
@@ -106,16 +111,16 @@ class App extends React.Component {
               <strong>lon: </strong>
               {this.state.locatinDAta.lon}
             </p>
-            <img src={this.state.imageOFCity} />
+            <img src={this.state.imageOFCity} alt="this is " />
           </div>
           <div>
             {
               this.state.databack1.map((item)=>{
                 return(
                   <div style={{ border: "solid", padding: "30px", margin: "20px" ,color:"gold"}}>
-                    <p><strong>the weather description :  </strong> {item.description}</p>
+                    <p><strong>the weather description :  </strong> {item.date}</p>
  
-                    <p><strong>the weather data :  </strong>{item.data}</p>
+                    <p><strong>the weather data :  </strong>{item.description}</p>
                     <br/>
                   </div>
                 )
@@ -124,7 +129,27 @@ class App extends React.Component {
             )
             }
           </div>
-        
+          <div>
+            {
+              this.state.databack1.map((item)=>{
+                return(
+                  <div style={{ border: "solid", padding: "30px", margin: "20px" ,color:"gold"}}>
+                    <p><strong>the movie popularity :  </strong> {item.popularity}</p>
+                    <p><strong>the movie count :  </strong> {item.count}</p>
+                    <p><strong>the movie release date :  </strong> {item.release_date}</p>
+                    <p><strong>the movie original title :  </strong> {item.original_title}</p>
+                    <p><strong>the movie overview :  </strong> {item.overview}</p>
+                    <p><strong>the movie vote average :  </strong> {item.vote_average}</p>
+                    <p><strong>the movie original language :  </strong> {item.original_language}</p>
+                    <img src={item.img} alt="this is " />
+                    <br/>
+                  </div>
+                )
+              }
+              
+            )
+            }
+          </div>
         </center>
       </div>
     );
